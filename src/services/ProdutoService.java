@@ -11,19 +11,16 @@ import repositories.ProdutoRepository;
 
 public class ProdutoService {
 	
-	LoteRepository loteRep;
 	ProdutoRepository prodRep;
-	
-	public ProdutoService(LoteRepository loteRep, ProdutoRepository prodRep) {
-		this.loteRep = loteRep;
+
+	public ProdutoService() {
+		this.prodRep = new ProdutoRepository();
+	}
+
+	public ProdutoService(ProdutoRepository prodRep) {
 		this.prodRep = prodRep;
 	}
 	
-	public List<Produto> listarProdsLoteByName(String nome) {
-		List<Produto> prods = getProdsWithLote();
-		return getProdsByName(nome, prods);
-	}
-
 	public List<Produto> listarProdByName(String nome) {
 		return getProdsByName(nome, this.prodRep.getAll());
 	}
@@ -37,17 +34,11 @@ public class ProdutoService {
 		}	
 		return(prodsResult);
 	}
-	
-
-	private List<Produto> getProdsWithLote() {
-		List<Produto> prods = new ArrayList<Produto>();
-		for (Lote lote : this.loteRep.getAll()) {
-			prods.add(lote.getProduto());
-		}
-		return(prods);
-	}
-
 	public void addProduto(Produto p) {
 		this.prodRep.addProduto(p);
+	}
+
+	public ProdutoRepository getProdRep() {
+		return this.prodRep;
 	}
 }
